@@ -52,12 +52,17 @@ const LocationModal = ({onClose}) => {
 
     const handleeGeoLocation = () => {
 
+        if(!navigator.geolocation){
+            setError("Geo location denied")
+            return
+        }
+
         navigator.geolocation.getCurrentPosition
         ((positions)=>{
             const {latitude, longitude} = positions.coords
             goToPage ( {name: "Your Location", lat : latitude, lon : longitude})
         },(error)=>{
-            setError(error);
+            setError(error.message);
         },{
             timeout: 10000
         })
